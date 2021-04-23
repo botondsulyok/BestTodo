@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Best Todo</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="error_cant_be_empty">Can\'t be empty!</string>
+    <string name="txt_created">Created</string>
+    <string name="hint_name">Name</string>
+    <string name="btn_add">Add</string>
+</resources>
