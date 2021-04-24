@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.besttodo.R
 import com.example.besttodo.databinding.TodosRowBinding
 import com.example.besttodo.ui.todos.models.UiTodo
 
 class TodosRecyclerViewAdapter : ListAdapter<UiTodo, TodosRecyclerViewAdapter.ViewHolder>(TodosDiffCallback) {
 
     interface TodoItemClickListener {
+        fun onItemClick(todo: UiTodo?): Boolean
         fun onCheckBoxClick(todo: UiTodo?): Boolean
         fun onItemLongClick(todo: UiTodo?): Boolean
     }
@@ -29,6 +31,9 @@ class TodosRecyclerViewAdapter : ListAdapter<UiTodo, TodosRecyclerViewAdapter.Vi
     inner class ViewHolder(private val binding: TodosRowBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
+            itemView.setOnClickListener {
+                todoClickListener?.onItemClick(binding.todo)
+            }
             binding.cbDone.setOnClickListener {
                 val todo = binding.todo?.copy(checked = binding.cbDone.isChecked) ?: UiTodo()
                 binding.cbDone.isChecked = true

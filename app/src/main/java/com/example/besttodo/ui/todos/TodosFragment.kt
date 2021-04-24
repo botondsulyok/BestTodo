@@ -11,6 +11,7 @@ import android.widget.Toast
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.extensions.exhaustive
+import com.afollestad.materialdialogs.MaterialDialog
 import com.example.besttodo.R
 import com.example.besttodo.databinding.FragmentTodosBinding
 import com.example.besttodo.ui.todos.dialogfragments.AddTodoBottomSheetDialogFragment
@@ -91,6 +92,17 @@ class TodosFragment : RainbowCakeFragment<TodosViewState, TodosViewModel>(),
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick(todo: UiTodo?): Boolean {
+        if(todo != null) {
+            MaterialDialog(requireContext()).show {
+                positiveButton { dismiss() }
+                message(text= todo.name)
+            }
+        }
+
+        return true
     }
 
     override fun onCheckBoxClick(todo: UiTodo?): Boolean {

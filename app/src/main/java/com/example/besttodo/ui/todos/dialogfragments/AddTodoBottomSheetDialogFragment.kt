@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.example.besttodo.R
 import com.example.besttodo.databinding.FragmentAddTodoBinding
 import com.example.besttodo.ui.todos.CreateTodoListener
