@@ -25,4 +25,8 @@ class TodosInteractor @Inject constructor(
         return diskDataSource.updateTodo(todo)
     }
 
+    fun deleteTodo(todo: DomainTodo): Result<Unit, String> {
+        return diskDataSource.deleteTodo(todo)
+    }
+
 }

@@ -45,6 +45,17 @@ class DiskDataSource @Inject constructor() {
         }
     }
 
+    fun deleteTodo(todo: DomainTodo): Result<Unit, String> {
+        return try {
+            todoDao.deleteTodo(todo.toRoomTodo())
+            ResultSuccess(Unit)
+        }
+        catch (e: Exception) {
+            Log.e("Todo Delete Exception", e.message.toString())
+            ResultFailure(e.message.toString())
+        }
+    }
+
     private fun RoomTodo.toDomainTodo(): DomainTodo {
         return DomainTodo(
             id = id,

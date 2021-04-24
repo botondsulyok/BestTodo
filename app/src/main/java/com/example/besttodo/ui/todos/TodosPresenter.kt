@@ -47,6 +47,17 @@ class TodosPresenter @Inject constructor(
         }
     }
 
+    suspend fun deleteTodo(todo: UiTodo): Result<Unit, String> = withIOContext {
+        when(val result = todosInteractor.deleteTodo(todo.toDomainTodo())) {
+            is ResultSuccess -> {
+                ResultSuccess(Unit)
+            }
+            is ResultFailure -> {
+                ResultFailure(reason = result.reason)
+            }
+        }
+    }
+
     private fun UiTodo.toDomainTodo(): DomainTodo {
         return DomainTodo(
             id = id,

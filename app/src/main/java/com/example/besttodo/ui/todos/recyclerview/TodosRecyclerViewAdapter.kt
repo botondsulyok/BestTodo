@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.besttodo.databinding.TodosRowBinding
 import com.example.besttodo.ui.todos.models.UiTodo
 
-class TodosRecyclerViewAdapter() : ListAdapter<UiTodo, TodosRecyclerViewAdapter.ViewHolder>(TodosDiffCallback) {
+class TodosRecyclerViewAdapter : ListAdapter<UiTodo, TodosRecyclerViewAdapter.ViewHolder>(TodosDiffCallback) {
 
     interface TodoItemClickListener {
-        fun onCheckBoxClick(todo: UiTodo?, isChecked: Boolean): Boolean
+        fun onCheckBoxClick(todo: UiTodo?): Boolean
+        fun onItemLongClick(todo: UiTodo?): Boolean
     }
 
     var todoClickListener: TodoItemClickListener? = null
@@ -29,7 +30,13 @@ class TodosRecyclerViewAdapter() : ListAdapter<UiTodo, TodosRecyclerViewAdapter.
 
         init {
             binding.cbDone.setOnClickListener {
-                todoClickListener?.onCheckBoxClick(binding.todo, binding.cbDone.isChecked)
+                val todo = binding.todo?.copy(checked = binding.cbDone.isChecked) ?: UiTodo()
+                binding.cbDone.isChecked = true
+                todoClickListener?.onCheckBoxClick(todo)
+            }
+            binding.cardViewTodosRow.setOnLongClickListener {
+                todoClickListener?.onItemLongClick(binding.todo)
+                true
             }
         }
 

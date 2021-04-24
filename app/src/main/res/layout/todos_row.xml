@@ -10,9 +10,9 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardViewExercisesRow"
+        android:id="@+id/cardViewTodosRow"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         app:contentPadding="24dp"
         android:layout_marginTop="2dp"
         android:layout_marginStart="12dp"

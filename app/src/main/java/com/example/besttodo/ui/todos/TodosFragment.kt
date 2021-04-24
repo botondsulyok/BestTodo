@@ -1,6 +1,9 @@
 package com.example.besttodo.ui.todos
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,13 +76,14 @@ class TodosFragment : RainbowCakeFragment<TodosViewState, TodosViewModel>(),
             }
             is Failed -> {
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(activity, viewState.message, Toast.LENGTH_LONG).show()
+                Snackbar.make(binding.root, viewState.message, Snackbar.LENGTH_LONG).show()
             }
             is Uploading -> {
                 binding.progressBar.visibility = View.VISIBLE
             }
-            is UploadSucess -> {
-                Snackbar.make(binding.root, getString(R.string.txt_created), Snackbar.LENGTH_LONG).show()
+            is ActionSuccess -> {
+                binding.progressBar.visibility = View.GONE
+                Snackbar.make(binding.root, viewState.message, Snackbar.LENGTH_LONG).show()
             }
         }.exhaustive
     }
@@ -89,9 +93,23 @@ class TodosFragment : RainbowCakeFragment<TodosViewState, TodosViewModel>(),
         _binding = null
     }
 
-    override fun onCheckBoxClick(todo: UiTodo?, isChecked: Boolean): Boolean {
+    override fun onCheckBoxClick(todo: UiTodo?): Boolean {
         if(todo != null) {
-            viewModel.updateTodo(todo.copy(checked = isChecked))
+            viewModel.updateTodo(todo)
+        }
+        return true
+    }
+
+    override fun onItemLongClick(todo: UiTodo?): Boolean {
+        if (todo != null) {
+            AlertDialog.Builder(context)
+                .setTitle(getString(R.string.title_warning))
+                .setMessage(getString(R.string.txt_sure_to_delete))
+                .setPositiveButton(getString(R.string.btn_yes)) { _: DialogInterface, _: Int ->
+                    viewModel.deleteTodo(todo)
+                }
+                .setNegativeButton(getString(R.string.btn_no), null)
+                .show()
         }
         return true
     }

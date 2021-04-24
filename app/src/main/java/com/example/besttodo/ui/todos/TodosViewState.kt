@@ -12,4 +12,4 @@ data class Failed(val message: String) : TodosViewState()
 
 object Uploading : TodosViewState()
 
-object UploadSucess : TodosViewState()
+data class ActionSuccess(val message: String) : TodosViewState()
