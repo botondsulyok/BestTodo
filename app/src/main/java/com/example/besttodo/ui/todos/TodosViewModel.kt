@@ -6,6 +6,7 @@ import com.example.besttodo.R
 import com.example.besttodo.data.ResultFailure
 import com.example.besttodo.data.ResultSuccess
 import com.example.besttodo.ui.todos.models.UiTodo
+import com.example.besttodo.utils.validate
 import javax.inject.Inject
 
 class TodosViewModel @Inject constructor(
@@ -82,10 +83,6 @@ class TodosViewModel @Inject constructor(
             }
         }
         getTodos()
-    }
-
-    private fun UiTodo.validate(): Boolean {
-        return this.name.isNotEmpty()
     }
 
     private fun canAddUncheckedTodo(): Boolean {
