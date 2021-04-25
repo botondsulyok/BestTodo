@@ -4,12 +4,12 @@ import com.example.besttodo.ui.todos.models.UiTodo
 
 sealed class TodosViewState
 
+object Initial: TodosViewState()
+
 object Loading : TodosViewState()
+
+object Errored: TodosViewState()
 
 data class TodosLoaded(val todosList: List<UiTodo> = listOf()) : TodosViewState()
 
-data class Failed(val message: String) : TodosViewState()
-
 object Uploading : TodosViewState()
-
-data class ActionSuccess(val message: String) : TodosViewState()

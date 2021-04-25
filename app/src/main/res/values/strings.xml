@@ -14,4 +14,5 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="txt_deleted">Deleted</string>
+    <string name="btn_ok">OK</string>
 </resources>

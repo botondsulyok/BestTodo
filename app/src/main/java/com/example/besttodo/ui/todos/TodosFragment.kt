@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import co.zsmb.rainbowcake.base.OneShotEvent
 import co.zsmb.rainbowcake.base.RainbowCakeFragment
 import co.zsmb.rainbowcake.dagger.getViewModelFromFactory
 import co.zsmb.rainbowcake.extensions.exhaustive
@@ -63,30 +64,46 @@ class TodosFragment : RainbowCakeFragment<TodosViewState, TodosViewModel>(),
         recyclerViewAdapter.todoClickListener = this
         binding.rvTodos.adapter = recyclerViewAdapter
 
-        viewModel.getTodos()
+        viewModel.load()
     }
 
     override fun render(viewState: TodosViewState) {
+        binding.progressBar.visibility = View.GONE
+        binding.ivError.visibility = View.GONE
+        binding.rvTodos.visibility = View.VISIBLE
         when (viewState) {
+            is Initial -> {
+
+            }
             is Loading -> {
                 binding.progressBar.visibility = View.VISIBLE
             }
-            is TodosLoaded -> {
-                binding.progressBar.visibility = View.GONE
-                recyclerViewAdapter.submitList(viewState.todosList)
+            is Errored -> {
+                binding.rvTodos.visibility = View.GONE
+                binding.ivError.visibility = View.VISIBLE
             }
-            is Failed -> {
-                binding.progressBar.visibility = View.GONE
-                Snackbar.make(binding.root, viewState.message, Snackbar.LENGTH_LONG).show()
+            is TodosLoaded -> {
+                recyclerViewAdapter.submitList(viewState.todosList)
             }
             is Uploading -> {
                 binding.progressBar.visibility = View.VISIBLE
             }
+        }.exhaustive
+    }
+
+    override fun onEvent(event: OneShotEvent) {
+        when(event) {
+            is Failed -> {
+                binding.progressBar.visibility = View.GONE
+                Snackbar.make(binding.root, event.message, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.btn_ok)) { }
+                        .show()
+            }
             is ActionSuccess -> {
                 binding.progressBar.visibility = View.GONE
-                Snackbar.make(binding.root, viewState.message, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, event.message, Snackbar.LENGTH_LONG).show()
             }
-        }.exhaustive
+        }
     }
 
     override fun onDestroyView() {
